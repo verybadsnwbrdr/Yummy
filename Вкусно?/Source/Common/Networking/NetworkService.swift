@@ -8,55 +8,67 @@
 import Foundation
 
 protocol NetworkInterface {
-	func fetchRecipes(complitionHandler: @escaping (Recipes) -> ())
+//	func fetchRecipes(endPointURL: EndPoint, complitionHandler: @escaping (Recipes) -> ())
+//	func fetchRecipes(endPointURL: EndPoint, complitionHandler: @escaping (Recipe) -> ())
+	func fetchRecipes<T: Decodable>(endPointURL: EndPoint, complitionHandler: @escaping (T) -> ())
 	func fetchImages(stringURLs: [String], complitionHandler: @escaping (Data) -> ())
+	func fetchImage(stringURL: String, complitionHandler: @escaping (Data) -> ())
 }
 
 final class NetworkService: NetworkInterface {
-	func fetchRecipes(complitionHandler: @escaping (Recipes) -> ()) {
-		guard let url = EndPoint.recipes.stringURL else { return }
-		URLSession.shared.dataTask(with: url) { data, response, error in
-			guard let data = data else { return }
+	
+	func fetchRecipes<T: Decodable>(endPointURL: EndPoint, complitionHandler: @escaping (T) -> ()) {
+		guard let url = endPointURL.stringURL else { return }
+		dataTask(url: url) { data in
 			do {
-				let decoded = try JSONDecoder().decode(Recipes.self, from: data)
+				let decoded = try JSONDecoder().decode(T.self, from: data)
 				DispatchQueue.main.async {
 					complitionHandler(decoded)
 				}
 			} catch {
 				print(error.localizedDescription)
 			}
-			
-		}.resume()
+		}
 	}
 	
 	func fetchImages(stringURLs: [String],
 					complitionHandler: @escaping (Data) -> ()) {
 		for stringURL in stringURLs {
-			guard let url = URL(string: stringURL) else { return }
-			do {
-				let data = try Data(contentsOf: url)
-				DispatchQueue.main.async {
-					complitionHandler(data)
-				}
-			} catch {
-				print(error.localizedDescription)
+			fetchImage(stringURL: stringURL) { data in
+				complitionHandler(data)
 			}
+//			guard let url = URL(string: stringURL) else { return }
+//			dataTask(url: url) { data in
+//				do {
+//					let data = try Data(contentsOf: url)
+//					DispatchQueue.main.async {
+//						complitionHandler(data)
+//					}
+//				} catch {
+//					print(error.localizedDescription)
+//				}
+//			}
 		}
 	}
 	
 	func fetchImage(stringURL: String,
 					complitionHandler: @escaping (Data) -> ()) {
 		guard let url = URL(string: stringURL) else { return }
-		DispatchQueue.global(qos: .userInitiated).async {
-			do {
-				let data = try Data(contentsOf: url)
-				DispatchQueue.main.async {
-					complitionHandler(data)
-				}
-			} catch {
-				print(error.localizedDescription)
+		dataTask(url: url) { data in
+			DispatchQueue.main.async {
+				complitionHandler(data)
 			}
 		}
+	}
+	
+	// MARK: - Private Methods
+	
+	private func dataTask(url: URL, complitionHandler: @escaping (Data) -> ()) {
+		let task = URLSession.shared.dataTask(with: url) { data, response, error in
+			guard let data = data else { return }
+			complitionHandler(data)
+		}
+		task.resume()
 	}
 }
 

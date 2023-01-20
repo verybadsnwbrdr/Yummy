@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MainView: AnyObject {
-	func reloadTableView(with recipes: [Recipe])
+	func updateTableView()
 }
 
 final class MainViewController: UIViewController {
@@ -16,9 +16,6 @@ final class MainViewController: UIViewController {
 	// MARK: - Properties
 	
 	var presenter: MainViewPresenter!
-	
-	// TODO: DELETE
-	var recipes: [Recipe] = []
 	
 	// MARK: - Elements
 	
@@ -35,7 +32,7 @@ final class MainViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		presenter = MainPresenter(view: self, networkService: NetworkService())
+//		presenter = MainPresenter(view: self, networkService: NetworkService())
 		setupController()
 		fetchItems()
 	}
@@ -60,16 +57,15 @@ final class MainViewController: UIViewController {
 	// MARK: - Private Methods
 	
 	private func fetchItems() {
-		presenter.fetchItems()
+		self.presenter.fetchItems()
 	}
 }
 
 // MARK: - Protocol
 
 extension MainViewController: MainView {
-	func reloadTableView(with recipes: [Recipe]) {
-		self.recipes = recipes
-		tableView.reloadData()
+	func updateTableView() {
+		self.tableView.reloadData()
 	}
 }
 
@@ -77,19 +73,28 @@ extension MainViewController: MainView {
 
 extension MainViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		recipes.count
+		self.presenter.numberOfItems()
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as? MainTableViewCell else { return UITableViewCell()
 		}
-		cell.recipe = recipes[indexPath.row]
+		cell.recipe = presenter.itemForRow(at: indexPath.row)
+		self.presenter.fetchImageData(for: indexPath.row) { data in
+			cell.recipe?.imageData = data
+		}
 		return cell
 	}
 }
 
 extension MainViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		80
+		70
+	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		tableView.deselectRow(at: indexPath, animated: true)
+		guard let view = self.presenter.createDetailView(for: indexPath.row) as? UIViewController else { return }
+		navigationController?.pushViewController(view, animated: true)
 	}
 }

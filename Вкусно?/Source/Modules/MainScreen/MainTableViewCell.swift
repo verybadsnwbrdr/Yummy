@@ -15,39 +15,35 @@ class MainTableViewCell: UITableViewCell {
 	
 	// MARK: Property
 	
-	var recipe: Recipe? {
+	var recipe: MainModel? {
 		didSet {
 			nameLabel.text = recipe?.name
 			descriptionLabel.text = recipe?.description
-			
-			// TODO: - DEPRECATE
-			NetworkService().fetchImage(stringURL: recipe?.images[0] ?? "") { [unowned self] in
-				recipeImage.image = UIImage(data: $0)
-			}
+			recipeImage.image = UIImage(data: recipe?.imageData ?? Data())
 		}
 	}
 	
 	// MARK: - Elements
 	
-	private var recipeImage: UIImageView = {
+	private let recipeImage: UIImageView = {
 		let imageView = UIImageView()
-		imageView.tintColor = .red
+		imageView.backgroundColor = .gray.withAlphaComponent(0.1)
 		imageView.contentMode = .scaleToFill
 		imageView.translatesAutoresizingMaskIntoConstraints = false
 		return imageView
 	}()
 	
-	private var nameLabel: UILabel = {
+	private let nameLabel: UILabel = {
 		let label = UILabel()
-		label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+		label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
 		label.numberOfLines = 1
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
 	}()
 	
-	private var descriptionLabel: UILabel = {
+	private let descriptionLabel: UILabel = {
 		let label = UILabel()
-		label.font = UIFont.systemFont(ofSize: 14)
+		label.font = UIFont.systemFont(ofSize: 12)
 		label.numberOfLines = 2
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
@@ -78,16 +74,14 @@ class MainTableViewCell: UITableViewCell {
 			recipeImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: .horizontalOffset),
 			recipeImage.centerYAnchor.constraint(equalTo: centerYAnchor),
 			recipeImage.topAnchor.constraint(equalTo: topAnchor, constant: .verticalOffset),
-//			recipeImage.bottomAnchor.constraint(equalTo: bottomAnchor, constant: .horizontalInset),
 			recipeImage.widthAnchor.constraint(equalTo: recipeImage.heightAnchor),
-//			recipeImage.widthAnchor.constraint(equalToConstant: 40),
 			
 			nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: .verticalOffset),
-//			nameLabel.bottomAnchor.constraint(equalTo: centerYAnchor),
+			nameLabel.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: .verticalInset),
 			nameLabel.leadingAnchor.constraint(equalTo: recipeImage.trailingAnchor, constant: .horizontalOffset),
 			nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: .horizontalInset),
 			
-			descriptionLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: .verticalOffset),
+			descriptionLabel.topAnchor.constraint(lessThanOrEqualTo: nameLabel.bottomAnchor, constant: .verticalOffset),
 			descriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: .verticalInset),
 			descriptionLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
 			descriptionLabel.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor)
@@ -102,7 +96,7 @@ class MainTableViewCell: UITableViewCell {
 	}
 }
 
-private extension CGFloat {
+fileprivate extension CGFloat {
 	static let horizontalOffset: CGFloat = 20
 	static var horizontalInset: CGFloat { -horizontalOffset }
 	
