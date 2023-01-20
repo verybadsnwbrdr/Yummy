@@ -49,7 +49,7 @@ final class MainViewController: UIViewController {
 		
 		NSLayoutConstraint.activate([
 			tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-			tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+			tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 			tableView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor)
 		])
 	}

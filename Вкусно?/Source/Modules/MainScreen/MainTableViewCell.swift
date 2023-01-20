@@ -96,6 +96,8 @@ class MainTableViewCell: UITableViewCell {
 	}
 }
 
+// MARK: - Metric
+
 fileprivate extension CGFloat {
 	static let horizontalOffset: CGFloat = 20
 	static var horizontalInset: CGFloat { -horizontalOffset }
