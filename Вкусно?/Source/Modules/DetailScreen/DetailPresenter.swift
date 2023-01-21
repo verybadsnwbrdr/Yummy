@@ -8,7 +8,7 @@
 import Foundation
 
 protocol DetailViewPresenter: AnyObject {
-	init(itemID: String, view: DetailView, networkService: NetworkInterface)
+	init(itemID: String, view: DetailView, networkService: NetworkType)
 	func fetchItem()
 	func fetchImageData(with stringURL: String, complitionHandler: @escaping (Data) -> ())
 }
@@ -16,12 +16,12 @@ protocol DetailViewPresenter: AnyObject {
 final class DetailPresenter: DetailViewPresenter {
 	
 	private weak var view: DetailView?
-	private let networkService: NetworkInterface
+	private let networkService: NetworkType
 	private var itemID: String
 	
 	// MARK: - Initializer
 	
-	init(itemID: String, view: DetailView, networkService: NetworkInterface) {
+	init(itemID: String, view: DetailView, networkService: NetworkType) {
 		self.view = view
 		self.networkService = networkService
 		self.itemID = itemID

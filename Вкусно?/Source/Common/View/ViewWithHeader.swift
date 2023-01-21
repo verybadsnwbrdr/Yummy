@@ -36,6 +36,7 @@ final class ViewWithHeader: UIView {
 		let label = UILabel()
 		label.font = Fonts.body.regular
 		label.numberOfLines = 0
+		label.textColor = .gray
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
 	}()

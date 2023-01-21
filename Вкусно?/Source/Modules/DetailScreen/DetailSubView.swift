@@ -84,7 +84,7 @@ final class DetailSubView: UIView {
 			instructionsView.topAnchor.constraint(equalTo: descriptionView.bottomAnchor, constant: .verticalOffset),
 			instructionsView.leadingAnchor.constraint(equalTo: leadingAnchor),
 			instructionsView.trailingAnchor.constraint(equalTo: trailingAnchor),
-			instructionsView.bottomAnchor.constraint(equalTo: bottomAnchor)
+			instructionsView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: .verticalInset)
 		])
 	}
 }

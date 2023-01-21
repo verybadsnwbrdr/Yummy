@@ -20,7 +20,6 @@
 		3A1EFADB297ADB19005894AA /* DetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFADA297ADB19005894AA /* DetailPresenter.swift */; };
 		3A1EFADE297ADB3E005894AA /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFADD297ADB3E005894AA /* DetailView.swift */; };
 		3A1EFAE0297ADB4E005894AA /* DetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFADF297ADB4E005894AA /* DetailModel.swift */; };
-		3A1EFAE3297ADF86005894AA /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFAE2297ADF86005894AA /* Router.swift */; };
 		3A1EFAE6297AE20B005894AA /* MainAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFAE5297AE20B005894AA /* MainAssembly.swift */; };
 		3A1EFAE8297AE2C7005894AA /* DetailAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFAE7297AE2C7005894AA /* DetailAssembly.swift */; };
 		3A1EFAEA297BA65B005894AA /* DetailSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFAE9297BA65B005894AA /* DetailSubView.swift */; };
@@ -28,6 +27,7 @@
 		3A1EFAF0297BEACC005894AA /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFAEF297BEACC005894AA /* Localization.swift */; };
 		3A1EFAF2297BEAD4005894AA /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFAF1297BEAD4005894AA /* Fonts.swift */; };
 		3A1EFAF4297BF0C9005894AA /* Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFAF3297BF0C9005894AA /* Metrics.swift */; };
+		3A1EFAF7297C28BD005894AA /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFAF6297C28BD005894AA /* DataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,7 +46,6 @@
 		3A1EFADA297ADB19005894AA /* DetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPresenter.swift; sourceTree = "<group>"; };
 		3A1EFADD297ADB3E005894AA /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		3A1EFADF297ADB4E005894AA /* DetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailModel.swift; sourceTree = "<group>"; };
-		3A1EFAE2297ADF86005894AA /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		3A1EFAE5297AE20B005894AA /* MainAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAssembly.swift; sourceTree = "<group>"; };
 		3A1EFAE7297AE2C7005894AA /* DetailAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAssembly.swift; sourceTree = "<group>"; };
 		3A1EFAE9297BA65B005894AA /* DetailSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSubView.swift; sourceTree = "<group>"; };
@@ -54,6 +53,7 @@
 		3A1EFAEF297BEACC005894AA /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		3A1EFAF1297BEAD4005894AA /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		3A1EFAF3297BF0C9005894AA /* Metrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metrics.swift; sourceTree = "<group>"; };
+		3A1EFAF6297C28BD005894AA /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +131,8 @@
 		3A1EFAC829798851005894AA /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				3A1EFAF5297C28AC005894AA /* DataManager */,
+				3A1EFAD329799388005894AA /* Networking */,
 				3A1EFACC29798AEC005894AA /* DetailScreen */,
 				3A1EFACB29798AE2005894AA /* MainScreen */,
 			);
@@ -149,8 +151,6 @@
 			isa = PBXGroup;
 			children = (
 				3A1EFAEE297BEABF005894AA /* Constants */,
-				3A1EFAE1297ADF75005894AA /* Router */,
-				3A1EFAD329799388005894AA /* Networking */,
 				3A1EFAED297BE0E8005894AA /* View */,
 			);
 			path = Common;
@@ -190,14 +190,6 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
-		3A1EFAE1297ADF75005894AA /* Router */ = {
-			isa = PBXGroup;
-			children = (
-				3A1EFAE2297ADF86005894AA /* Router.swift */,
-			);
-			path = Router;
-			sourceTree = "<group>";
-		};
 		3A1EFAED297BE0E8005894AA /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -214,6 +206,14 @@
 				3A1EFAF3297BF0C9005894AA /* Metrics.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		3A1EFAF5297C28AC005894AA /* DataManager */ = {
+			isa = PBXGroup;
+			children = (
+				3A1EFAF6297C28BD005894AA /* DataManager.swift */,
+			);
+			path = DataManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -292,7 +292,6 @@
 				3A1EFAF4297BF0C9005894AA /* Metrics.swift in Sources */,
 				3A1EFADB297ADB19005894AA /* DetailPresenter.swift in Sources */,
 				3A1EFADE297ADB3E005894AA /* DetailView.swift in Sources */,
-				3A1EFAE3297ADF86005894AA /* Router.swift in Sources */,
 				3A1EFAD029798EEA005894AA /* MainModel.swift in Sources */,
 				3A1EFAD72979965F005894AA /* MainTableViewCell.swift in Sources */,
 				3A1EFAD9297AD731005894AA /* NetworkModels.swift in Sources */,
@@ -301,6 +300,7 @@
 				3A1EFAE0297ADB4E005894AA /* DetailModel.swift in Sources */,
 				3A1EFAB129798622005894AA /* AppDelegate.swift in Sources */,
 				3A1EFAE8297AE2C7005894AA /* DetailAssembly.swift in Sources */,
+				3A1EFAF7297C28BD005894AA /* DataManager.swift in Sources */,
 				3A1EFAE6297AE20B005894AA /* MainAssembly.swift in Sources */,
 				3A1EFAEA297BA65B005894AA /* DetailSubView.swift in Sources */,
 				3A1EFAF2297BEAD4005894AA /* Fonts.swift in Sources */,

@@ -8,7 +8,7 @@
 import Foundation
 
 protocol MainViewPresenter: AnyObject {
-	init(view: MainView, networkService: NetworkInterface)
+	init(view: MainView, networkService: NetworkType)
 	func fetchItems()
 	func itemForRow(at index: Int) -> MainModel
 	func numberOfItems() -> Int
@@ -20,12 +20,12 @@ protocol MainViewPresenter: AnyObject {
 final class MainPresenter: MainViewPresenter {
 	
 	private weak var view: MainView?
-	private let networkService: NetworkInterface
+	private let networkService: NetworkType
 	private var items: [MainModel] = []
 	
 	// MARK: - Initializer
 	
-	init(view: MainView, networkService: NetworkInterface) {
+	init(view: MainView, networkService: NetworkType) {
 		self.view = view
 		self.networkService = networkService
 	}

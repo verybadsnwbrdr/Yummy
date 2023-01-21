@@ -67,6 +67,11 @@ final class DetailViewController: UIViewController, DetailView {
 		super.viewDidLoad()
 		fetchRecipe()
 		navigationItem.largeTitleDisplayMode = .never
+		navigationController?.navigationBar.tintColor = .gray
+		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back",
+														   style: .plain,
+														   target: self,
+														   action: #selector(back))
 		view.backgroundColor = .white
 		setupHierarchy()
 		setupLayout()
@@ -85,6 +90,10 @@ final class DetailViewController: UIViewController, DetailView {
 	
 	private func fetchRecipe() {
 		self.presenter.fetchItem()
+	}
+	
+	@objc func back() {
+		navigationController?.popViewController(animated: true)
 	}
 }
 

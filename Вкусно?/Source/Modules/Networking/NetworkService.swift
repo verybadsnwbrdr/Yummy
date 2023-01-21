@@ -7,12 +7,18 @@
 
 import Foundation
 
-protocol NetworkInterface {
+protocol NetworkType: AnyObject {
 	func fetchItem<T: Decodable>(endPointURL: EndPoint, complitionHandler: @escaping (T) -> ())
 	func fetchImage(stringURL: String, complitionHandler: @escaping (Data) -> ())
 }
 
-final class NetworkService: NetworkInterface {
+final class NetworkService: NetworkType {
+	
+	var dataManager: DataManagerType?
+	
+	init(dataManager: DataManagerType?) {
+		self.dataManager = dataManager
+	}
 	
 	func fetchItem<T: Decodable>(endPointURL: EndPoint, complitionHandler: @escaping (T) -> ()) {
 		guard let url = endPointURL.stringURL else { return }
@@ -31,9 +37,16 @@ final class NetworkService: NetworkInterface {
 	func fetchImage(stringURL: String,
 					complitionHandler: @escaping (Data) -> ()) {
 		guard let url = URL(string: stringURL) else { return }
-		dataTask(url: url) { data in
+		if let data = dataManager?.data(for: url) {
 			DispatchQueue.main.async {
-				complitionHandler(data)
+				complitionHandler(data as Data)
+			}
+		} else {
+			dataTask(url: url) { [weak self] data in
+				DispatchQueue.main.async {
+					complitionHandler(data)
+				}
+				self?.dataManager?.insertData(data as NSData, for: url)
 			}
 		}
 	}

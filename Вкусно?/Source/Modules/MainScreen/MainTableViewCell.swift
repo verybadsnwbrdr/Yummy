@@ -29,18 +29,16 @@ class MainTableViewCell: UITableViewCell {
 		let imageView = UIImageView()
 		imageView.backgroundColor = .gray.withAlphaComponent(0.1)
 		imageView.contentMode = .scaleToFill
-//		imageView.layer.cornerRadius = 5
-//		imageView.clipsToBounds = true
-		imageView.layer.shadowRadius = 5
-		image
-		imageView.layer.shadowColor = UIColor.black.cgColor
+		imageView.layer.cornerRadius = 5
+		imageView.clipsToBounds = true
 		imageView.translatesAutoresizingMaskIntoConstraints = false
 		return imageView
 	}()
 	
 	private let nameLabel: UILabel = {
 		let label = UILabel()
-		label.font = Fonts.tableHeader.semibold
+//		label.font = Fonts.tableHeader.semibold
+		label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
 		label.numberOfLines = 1
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
@@ -48,7 +46,9 @@ class MainTableViewCell: UITableViewCell {
 	
 	private let descriptionLabel: UILabel = {
 		let label = UILabel()
-		label.font = Fonts.tableBody.regular
+//		label.font = Fonts.tableBody.regular
+		label.font = UIFont.systemFont(ofSize: 15)
+		label.textColor = .gray
 		label.numberOfLines = 2
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
