@@ -10,7 +10,6 @@ import Foundation
 protocol DetailViewPresenter: AnyObject {
 	init(itemID: String, view: DetailView, networkService: NetworkInterface)
 	func fetchItem()
-//	func fetchImages(strings: [String], complitionHandler: @escaping (Data) -> ())
 	func fetchImageData(with stringURL: String, complitionHandler: @escaping (Data) -> ())
 }
 
@@ -33,12 +32,6 @@ final class DetailPresenter: DetailViewPresenter {
 			self?.view?.recipe = recipe
 		}
 	}
-	
-//	func fetchImages(strings: [String], complitionHandler: @escaping (Data) -> ()) {
-//		self.networkService.fetchImages(stringURLs: strings) { data in
-//			complitionHandler(data)
-//		}
-//	}
 	
 	func fetchImageData(with stringURL: String, complitionHandler: @escaping (Data) -> ()) {
 		self.networkService.fetchImage(stringURL: stringURL) { data in

@@ -29,6 +29,11 @@ class MainTableViewCell: UITableViewCell {
 		let imageView = UIImageView()
 		imageView.backgroundColor = .gray.withAlphaComponent(0.1)
 		imageView.contentMode = .scaleToFill
+//		imageView.layer.cornerRadius = 5
+//		imageView.clipsToBounds = true
+		imageView.layer.shadowRadius = 5
+		image
+		imageView.layer.shadowColor = UIColor.black.cgColor
 		imageView.translatesAutoresizingMaskIntoConstraints = false
 		return imageView
 	}()
@@ -75,15 +80,11 @@ class MainTableViewCell: UITableViewCell {
 			recipeImage.centerYAnchor.constraint(equalTo: centerYAnchor),
 			recipeImage.topAnchor.constraint(equalTo: topAnchor, constant: .tableVerticalOffset),
 			recipeImage.widthAnchor.constraint(equalTo: recipeImage.heightAnchor),
-			
-//			nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: .verticalOffset),
-//			nameLabel.bottomAnchor.constraint(greaterThanOrEqualTo: bottomAnchor), //, constant: .verticalInset
-			nameLabel.topAnchor.constraint(equalTo: recipeImage.topAnchor),
+
+			nameLabel.topAnchor.constraint(greaterThanOrEqualTo: recipeImage.topAnchor),
 			nameLabel.leadingAnchor.constraint(equalTo: recipeImage.trailingAnchor, constant: .horizontalOffset),
 			nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: .horizontalInset),
-			
-//			descriptionLabel.topAnchor.constraint(lessThanOrEqualTo: nameLabel.bottomAnchor, constant: .verticalOffset),
-//			descriptionLabel.topAnchor.constraint(lessThanOrEqualTo: recipeImage.topAnchor),
+
 			descriptionLabel.bottomAnchor.constraint(equalTo: recipeImage.bottomAnchor),
 			descriptionLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
 			descriptionLabel.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor)
@@ -96,14 +97,4 @@ class MainTableViewCell: UITableViewCell {
 		self.nameLabel.text = nil
 		self.descriptionLabel.text = nil
 	}
-}
-
-//// MARK: - Metric
-//
-fileprivate extension CGFloat {
-//	static let horizontalOffset: CGFloat = 20
-//	static var horizontalInset: CGFloat { -horizontalOffset }
-	
-	static let tableVerticalOffset: CGFloat = 5
-	static var tableVerticalInset: CGFloat { -verticalOffset }
 }

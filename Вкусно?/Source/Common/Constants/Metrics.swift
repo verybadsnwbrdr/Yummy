@@ -19,4 +19,6 @@ extension CGFloat {
 	static let imageMultiplier: CGFloat = 0.8
 	static let starsMultiplier: CGFloat = 6
 	static let starsHeight: CGFloat = 20
+	
+	static let tableVerticalOffset: CGFloat = 5
 }

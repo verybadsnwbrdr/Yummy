@@ -66,8 +66,8 @@ final class DetailViewController: UIViewController, DetailView {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		fetchRecipe()
+		navigationItem.largeTitleDisplayMode = .never
 		view.backgroundColor = .white
-//		navigationController?.navigationBar.isHidden = true
 		setupHierarchy()
 		setupLayout()
 	}
@@ -85,32 +85,6 @@ final class DetailViewController: UIViewController, DetailView {
 	
 	private func fetchRecipe() {
 		self.presenter.fetchItem()
-	}
-}
-
-// MARK: - Layout
-
-private extension DetailViewController {
-	func setupLayout() {
-		NSLayoutConstraint.activate([
-			scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-			scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-			scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-			scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-
-			collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .horizontalOffset),
-			collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: .horizontalInset),
-			collectionView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-			collectionView.heightAnchor.constraint(equalTo: collectionView.widthAnchor, multiplier: .imageMultiplier),
-			
-			pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-			pageControl.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: .verticalInset),
-			
-			detailSubView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: .verticalOffset),
-			detailSubView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .horizontalOffset),
-			detailSubView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: .horizontalInset),
-			detailSubView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: .verticalInset)
-		])
 	}
 }
 
@@ -160,16 +134,28 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
 	}
 }
 
-//// MARK: - Metric
-//
-//fileprivate extension CGFloat {
-//	static let horizontalOffset: CGFloat = 20
-//	static var horizontalInset: CGFloat { -horizontalOffset }
-//	
-//	static let verticalOffset: CGFloat = 10
-//	static var verticalInset: CGFloat { -verticalOffset }
-//	
-//	static let imageMultiplier: CGFloat = 0.8
-//	static let starsMultiplier: CGFloat = 6
-//	static let starsHeight: CGFloat = 20
-//}
+// MARK: - Layout
+
+private extension DetailViewController {
+	func setupLayout() {
+		NSLayoutConstraint.activate([
+			scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+			scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+			scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+			scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+
+			collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .horizontalOffset),
+			collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: .horizontalInset),
+			collectionView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+			collectionView.heightAnchor.constraint(equalTo: collectionView.widthAnchor, multiplier: .imageMultiplier),
+			
+			pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+			pageControl.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: .verticalInset),
+			
+			detailSubView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: .verticalOffset),
+			detailSubView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .horizontalOffset),
+			detailSubView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: .horizontalInset),
+			detailSubView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+		])
+	}
+}

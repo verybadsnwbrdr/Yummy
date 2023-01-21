@@ -32,7 +32,6 @@ final class MainViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-//		presenter = MainPresenter(view: self, networkService: NetworkService())
 		setupController()
 		fetchItems()
 	}
