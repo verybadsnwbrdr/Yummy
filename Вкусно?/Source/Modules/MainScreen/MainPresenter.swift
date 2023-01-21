@@ -33,7 +33,7 @@ final class MainPresenter: MainViewPresenter {
 	// MARK: - Methods
 	
 	func fetchItems() {
-		networkService.fetchRecipes(endPointURL: .recipes) { [weak self] (recipes: Recipes) in
+		networkService.fetchItem(endPointURL: .recipes) { [weak self] (recipes: Recipes) in
 			self?.items = recipes.recipes.map { MainModel(uuid: $0.uuid,
 														  name: $0.name,
 														  description: $0.description,

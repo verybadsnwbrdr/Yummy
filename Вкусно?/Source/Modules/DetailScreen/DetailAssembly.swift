@@ -10,9 +10,7 @@ import Foundation
 struct DetailAssembly {
 	static func build(id: String, with networkService: NetworkInterface) -> DetailView {
 		let view = DetailViewController()
-//		view.recipe?.uuid = id
-		view.id = id
-		view.presenter = DetailPresenter(view: view, networkService: networkService)
+		view.presenter = DetailPresenter(itemID: id, view: view, networkService: networkService)
 		return view
 	}
 }

@@ -16,8 +16,8 @@ final class DetailSubView: UIView {
 					instructions: String?,
 					difficulty: Int?) {
 		nameLabel.text = name
-		descriptionLabel.text = description
-		instructionsLabel.text = instructions
+		descriptionView.body = description
+		instructionsView.body = instructions
 		showStars(with: difficulty)
 	}
 
@@ -25,15 +25,7 @@ final class DetailSubView: UIView {
 	
 	private let nameLabel: UILabel = {
 		let label = UILabel()
-		label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-		label.numberOfLines = 0
-		label.translatesAutoresizingMaskIntoConstraints = false
-		return label
-	}()
-	
-	private let descriptionLabel: UILabel = {
-		let label = UILabel()
-		label.font = UIFont.systemFont(ofSize: 16)
+		label.font = Fonts.header.bold
 		label.numberOfLines = 0
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
@@ -48,14 +40,9 @@ final class DetailSubView: UIView {
 		return stack
 	}()
 	
-	private let instructionsLabel: UILabel = {
-		let label = UILabel()
-		label.font = UIFont.systemFont(ofSize: 16)
-		label.numberOfLines = 0
-		label.translatesAutoresizingMaskIntoConstraints = false
-		return label
-	}()
-	
+	private let descriptionView = ViewWithHeader(header: Localization.description.rawValue)
+	private let instructionsView = ViewWithHeader(header: Localization.instructions.rawValue)
+
 	// MARK: - Initializers
 	
 	override init(frame: CGRect) {
@@ -74,9 +61,9 @@ final class DetailSubView: UIView {
 	
 	private func setupHierarchy() {
 		addSubview(nameLabel)
-		addSubview(descriptionLabel)
 		addSubview(starsStackView)
-		addSubview(instructionsLabel)
+		addSubview(descriptionView)
+		addSubview(instructionsView)
 	}
 	
 	private func setupLayout() {
@@ -85,22 +72,21 @@ final class DetailSubView: UIView {
 			nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
 			nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
 
-			starsStackView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5),
-			starsStackView.heightAnchor.constraint(lessThanOrEqualToConstant: 15),
-			starsStackView.widthAnchor.constraint(equalTo: starsStackView.heightAnchor, multiplier: 6),
-			starsStackView.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-
-			descriptionLabel.topAnchor.constraint(equalTo: starsStackView.bottomAnchor, constant: 5),
-			descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-			descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-
-			instructionsLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 5),
-			instructionsLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-			instructionsLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-			instructionsLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)
+			starsStackView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: .verticalOffset),
+			starsStackView.heightAnchor.constraint(lessThanOrEqualToConstant: .starsHeight),
+			starsStackView.widthAnchor.constraint(equalTo: starsStackView.heightAnchor, multiplier: .starsMultiplier),
+			starsStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+			
+			descriptionView.topAnchor.constraint(equalTo: starsStackView.bottomAnchor, constant: .verticalOffset),
+			descriptionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+			descriptionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+			
+			instructionsView.topAnchor.constraint(equalTo: descriptionView.bottomAnchor, constant: .verticalOffset),
+			instructionsView.leadingAnchor.constraint(equalTo: leadingAnchor),
+			instructionsView.trailingAnchor.constraint(equalTo: trailingAnchor),
+			instructionsView.bottomAnchor.constraint(equalTo: bottomAnchor)
 		])
 	}
-	
 }
 
 private extension DetailSubView {
@@ -128,3 +114,17 @@ private extension DetailSubView {
 		}
 	}
 }
+
+// MARK: - Metric
+
+//fileprivate extension CGFloat {
+//	static let horizontalOffset: CGFloat = 20
+//	static var horizontalInset: CGFloat { -horizontalOffset }
+//	
+//	static let verticalOffset: CGFloat = 10
+//	static var verticalInset: CGFloat { -verticalOffset }
+//	
+//	static let imageMultiplier: CGFloat = 0.8
+//	static let starsMultiplier: CGFloat = 6
+//	static let starsHeight: CGFloat = 20
+//}

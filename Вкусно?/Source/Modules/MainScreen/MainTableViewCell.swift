@@ -35,7 +35,7 @@ class MainTableViewCell: UITableViewCell {
 	
 	private let nameLabel: UILabel = {
 		let label = UILabel()
-		label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+		label.font = Fonts.tableHeader.semibold
 		label.numberOfLines = 1
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
@@ -43,7 +43,7 @@ class MainTableViewCell: UITableViewCell {
 	
 	private let descriptionLabel: UILabel = {
 		let label = UILabel()
-		label.font = UIFont.systemFont(ofSize: 12)
+		label.font = Fonts.tableBody.regular
 		label.numberOfLines = 2
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
@@ -73,16 +73,18 @@ class MainTableViewCell: UITableViewCell {
 		NSLayoutConstraint.activate([
 			recipeImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: .horizontalOffset),
 			recipeImage.centerYAnchor.constraint(equalTo: centerYAnchor),
-			recipeImage.topAnchor.constraint(equalTo: topAnchor, constant: .verticalOffset),
+			recipeImage.topAnchor.constraint(equalTo: topAnchor, constant: .tableVerticalOffset),
 			recipeImage.widthAnchor.constraint(equalTo: recipeImage.heightAnchor),
 			
-			nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: .verticalOffset),
-			nameLabel.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: .verticalInset),
+//			nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: .verticalOffset),
+//			nameLabel.bottomAnchor.constraint(greaterThanOrEqualTo: bottomAnchor), //, constant: .verticalInset
+			nameLabel.topAnchor.constraint(equalTo: recipeImage.topAnchor),
 			nameLabel.leadingAnchor.constraint(equalTo: recipeImage.trailingAnchor, constant: .horizontalOffset),
 			nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: .horizontalInset),
 			
-			descriptionLabel.topAnchor.constraint(lessThanOrEqualTo: nameLabel.bottomAnchor, constant: .verticalOffset),
-			descriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: .verticalInset),
+//			descriptionLabel.topAnchor.constraint(lessThanOrEqualTo: nameLabel.bottomAnchor, constant: .verticalOffset),
+//			descriptionLabel.topAnchor.constraint(lessThanOrEqualTo: recipeImage.topAnchor),
+			descriptionLabel.bottomAnchor.constraint(equalTo: recipeImage.bottomAnchor),
 			descriptionLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
 			descriptionLabel.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor)
 		])
@@ -96,12 +98,12 @@ class MainTableViewCell: UITableViewCell {
 	}
 }
 
-// MARK: - Metric
-
+//// MARK: - Metric
+//
 fileprivate extension CGFloat {
-	static let horizontalOffset: CGFloat = 20
-	static var horizontalInset: CGFloat { -horizontalOffset }
+//	static let horizontalOffset: CGFloat = 20
+//	static var horizontalInset: CGFloat { -horizontalOffset }
 	
-	static let verticalOffset: CGFloat = 5
-	static var verticalInset: CGFloat { -verticalOffset }
+	static let tableVerticalOffset: CGFloat = 5
+	static var tableVerticalInset: CGFloat { -verticalOffset }
 }

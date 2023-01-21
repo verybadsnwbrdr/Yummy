@@ -16,20 +16,15 @@ final class DetailViewController: UIViewController, DetailView {
 	// MARK: - Properties
 	
 	var presenter: DetailViewPresenter!
-	var id = String()
 	var recipe: DetailModel? {
 		didSet {
 			let recipe = recipe?.recipe
 			
 			collectionView.reloadData()
-			stackView.setupStack(name: recipe?.name,
+			detailSubView.setupStack(name: recipe?.name,
 								 description: recipe?.description,
 								 instructions: recipe?.instructions,
 								 difficulty: recipe?.difficulty)
-//			nameLabel.text = recipe?.name
-//			descriptionLabel.text = recipe?.description
-//			instructionsLabel.text = recipe?.instructions
-//			showStars(with: recipe?.difficulty)
 			
 			if let numberOfPages = recipe?.images.count, numberOfPages > 1 {
 				pageControl.numberOfPages = numberOfPages
@@ -53,41 +48,9 @@ final class DetailViewController: UIViewController, DetailView {
 	
 	private let pageControl: UIPageControl = {
 		let pageControl = UIPageControl()
+		pageControl.isEnabled = false
 		pageControl.translatesAutoresizingMaskIntoConstraints = false
 		return pageControl
-	}()
-	
-	private let nameLabel: UILabel = {
-		let label = UILabel()
-		label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-		label.numberOfLines = 0
-		label.translatesAutoresizingMaskIntoConstraints = false
-		return label
-	}()
-	
-	private let descriptionLabel: UILabel = {
-		let label = UILabel()
-		label.font = UIFont.systemFont(ofSize: 16)
-		label.numberOfLines = 0
-		label.translatesAutoresizingMaskIntoConstraints = false
-		return label
-	}()
-	
-	private let starsStackView: UIStackView = {
-		let stack = UIStackView()
-		stack.axis = .horizontal
-		stack.alignment = .leading
-		stack.distribution = .fillEqually
-		stack.translatesAutoresizingMaskIntoConstraints = false
-		return stack
-	}()
-	
-	private let instructionsLabel: UILabel = {
-		let label = UILabel()
-		label.font = UIFont.systemFont(ofSize: 16)
-		label.numberOfLines = 0
-		label.translatesAutoresizingMaskIntoConstraints = false
-		return label
 	}()
 	
 	private let scrollView: UIScrollView = {
@@ -96,7 +59,7 @@ final class DetailViewController: UIViewController, DetailView {
 		return scrollView
 	}()
 	
-	private let stackView = DetailSubView()
+	private let detailSubView = DetailSubView()
 	
 	// MARK: - LifeCycle
 	
@@ -107,53 +70,21 @@ final class DetailViewController: UIViewController, DetailView {
 //		navigationController?.navigationBar.isHidden = true
 		setupHierarchy()
 		setupLayout()
-		generateStars()
 	}
 	
 	// MARK: - Setup Controller
 	
 	private func setupHierarchy() {
-//		scrollView.addSubview(recipeImage)
 		scrollView.addSubview(collectionView)
 		scrollView.addSubview(pageControl)
-		scrollView.addSubview(stackView)
-//		scrollView.addSubview(nameLabel)
-//		scrollView.addSubview(starsStackView)
-//		scrollView.addSubview(descriptionLabel)
-//		scrollView.addSubview(instructionsLabel)
+		scrollView.addSubview(detailSubView)
 		view.addSubview(scrollView)
 	}
 	
+	// MARK: - Private Methods
+	
 	private func fetchRecipe() {
-		self.presenter.fetchItem(with: id)
-	}
-}
-
-// MARK: - Difficulty of Recipe
-
-private extension DetailViewController {
-	
-	func createStarView() -> UIImageView {
-		let star = UIImageView()
-		star.image = UIImage(named: "star.fill")
-		star.tintColor = .gray
-		star.contentMode = .scaleAspectFit
-		star.translatesAutoresizingMaskIntoConstraints = false
-		return star
-	}
-	
-	func generateStars() {
-		for _ in 0 ..< 5 {
-			let view = createStarView()
-			starsStackView.addArrangedSubview(view)
-		}
-	}
-	
-	func showStars(with difficulty: Int?) {
-		guard let difficulty = difficulty else { return }
-		starsStackView.arrangedSubviews.enumerated().forEach {
-			$0.element.tintColor = $0.offset < difficulty ? .orange : .gray
-		}
+		self.presenter.fetchItem()
 	}
 }
 
@@ -166,12 +97,7 @@ private extension DetailViewController {
 			scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 			scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
 			scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-			
-//			recipeImage.leadingAnchor.constraint(equalTo: collectionView.leadingAnchor),
-//			recipeImage.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor),
-//			recipeImage.topAnchor.constraint(equalTo: collectionView.topAnchor),
-//			recipeImage.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor),
-			
+
 			collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .horizontalOffset),
 			collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: .horizontalInset),
 			collectionView.topAnchor.constraint(equalTo: scrollView.topAnchor),
@@ -180,34 +106,15 @@ private extension DetailViewController {
 			pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 			pageControl.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: .verticalInset),
 			
-			stackView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: .verticalOffset),
-			stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .horizontalOffset),
-			stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: .horizontalInset),
-			stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: .verticalInset)
-			
-//			nameLabel.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: .verticalOffset),
-////			nameLabel.topAnchor.constraint(equalTo: recipeImage.bottomAnchor, constant: .verticalOffset),
-//			nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .horizontalOffset),
-//			nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: .horizontalInset),
-//
-//			starsStackView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: .verticalOffset),
-//			starsStackView.heightAnchor.constraint(lessThanOrEqualToConstant: .starsHeight),
-//			starsStackView.widthAnchor.constraint(equalTo: starsStackView.heightAnchor, multiplier: .starsMultiplier),
-//			starsStackView.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-//
-//			descriptionLabel.topAnchor.constraint(equalTo: starsStackView.bottomAnchor, constant: .verticalOffset),
-//			descriptionLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-//			descriptionLabel.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
-//
-//			instructionsLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: .horizontalOffset),
-//			instructionsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .horizontalOffset),
-//			instructionsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: .horizontalInset),
-//			instructionsLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: .horizontalInset)
+			detailSubView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: .verticalOffset),
+			detailSubView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .horizontalOffset),
+			detailSubView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: .horizontalInset),
+			detailSubView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: .verticalInset)
 		])
 	}
 }
 
-// MARK: - Delegates
+// MARK: - DataSource
 
 extension DetailViewController: UICollectionViewDataSource {
 	private func createRecipeImage(with frame: CGRect) -> UIImageView {
@@ -236,6 +143,8 @@ extension DetailViewController: UICollectionViewDataSource {
 	}
 }
 
+// MARK: - FlowLayout Delegate
+
 extension DetailViewController: UICollectionViewDelegateFlowLayout {
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		CGSize(width: collectionView.frame.width,
@@ -251,16 +160,16 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
 	}
 }
 
-// MARK: - Metric
-
-fileprivate extension CGFloat {
-	static let horizontalOffset: CGFloat = 20
-	static var horizontalInset: CGFloat { -horizontalOffset }
-	
-	static let verticalOffset: CGFloat = 10
-	static var verticalInset: CGFloat { -verticalOffset }
-	
-	static let imageMultiplier: CGFloat = 0.8
-	static let starsMultiplier: CGFloat = 6
-	static let starsHeight: CGFloat = 20
-}
+//// MARK: - Metric
+//
+//fileprivate extension CGFloat {
+//	static let horizontalOffset: CGFloat = 20
+//	static var horizontalInset: CGFloat { -horizontalOffset }
+//	
+//	static let verticalOffset: CGFloat = 10
+//	static var verticalInset: CGFloat { -verticalOffset }
+//	
+//	static let imageMultiplier: CGFloat = 0.8
+//	static let starsMultiplier: CGFloat = 6
+//	static let starsHeight: CGFloat = 20
+//}

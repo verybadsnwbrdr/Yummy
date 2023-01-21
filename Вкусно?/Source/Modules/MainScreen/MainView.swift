@@ -41,7 +41,7 @@ final class MainViewController: UIViewController {
 	
 	private func setupController() {
 		view.backgroundColor = .white
-		title = "Вкусно?"
+		title = Localization.appName.rawValue
 		navigationController?.navigationBar.prefersLargeTitles = true
 		view.addSubview(tableView)
 		

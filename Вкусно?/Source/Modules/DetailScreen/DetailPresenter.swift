@@ -8,9 +8,9 @@
 import Foundation
 
 protocol DetailViewPresenter: AnyObject {
-	init(view: DetailView, networkService: NetworkInterface)
-	func fetchItem(with id: String)
-	func fetchImages(strings: [String], complitionHandler: @escaping (Data) -> ())
+	init(itemID: String, view: DetailView, networkService: NetworkInterface)
+	func fetchItem()
+//	func fetchImages(strings: [String], complitionHandler: @escaping (Data) -> ())
 	func fetchImageData(with stringURL: String, complitionHandler: @escaping (Data) -> ())
 }
 
@@ -18,27 +18,27 @@ final class DetailPresenter: DetailViewPresenter {
 	
 	private weak var view: DetailView?
 	private let networkService: NetworkInterface
-//	private var item: DetailModel?
+	private var itemID: String
 	
 	// MARK: - Initializer
 	
-	init(view: DetailView, networkService: NetworkInterface) {
+	init(itemID: String, view: DetailView, networkService: NetworkInterface) {
 		self.view = view
 		self.networkService = networkService
+		self.itemID = itemID
 	}
 	
-	func fetchItem(with id: String) {
-		self.networkService.fetchRecipes(endPointURL: .recipeWithID(id)) { [weak self] (recipe: DetailModel) in
-//			self?.item = recipe
+	func fetchItem() {
+		self.networkService.fetchItem(endPointURL: .recipeWithID(itemID)) { [weak self] (recipe: DetailModel) in
 			self?.view?.recipe = recipe
 		}
 	}
 	
-	func fetchImages(strings: [String], complitionHandler: @escaping (Data) -> ()) {
-		self.networkService.fetchImages(stringURLs: strings) { data in
-			complitionHandler(data)
-		}
-	}
+//	func fetchImages(strings: [String], complitionHandler: @escaping (Data) -> ()) {
+//		self.networkService.fetchImages(stringURLs: strings) { data in
+//			complitionHandler(data)
+//		}
+//	}
 	
 	func fetchImageData(with stringURL: String, complitionHandler: @escaping (Data) -> ()) {
 		self.networkService.fetchImage(stringURL: stringURL) { data in

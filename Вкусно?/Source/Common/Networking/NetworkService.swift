@@ -8,16 +8,13 @@
 import Foundation
 
 protocol NetworkInterface {
-//	func fetchRecipes(endPointURL: EndPoint, complitionHandler: @escaping (Recipes) -> ())
-//	func fetchRecipes(endPointURL: EndPoint, complitionHandler: @escaping (Recipe) -> ())
-	func fetchRecipes<T: Decodable>(endPointURL: EndPoint, complitionHandler: @escaping (T) -> ())
-	func fetchImages(stringURLs: [String], complitionHandler: @escaping (Data) -> ())
+	func fetchItem<T: Decodable>(endPointURL: EndPoint, complitionHandler: @escaping (T) -> ())
 	func fetchImage(stringURL: String, complitionHandler: @escaping (Data) -> ())
 }
 
 final class NetworkService: NetworkInterface {
 	
-	func fetchRecipes<T: Decodable>(endPointURL: EndPoint, complitionHandler: @escaping (T) -> ()) {
+	func fetchItem<T: Decodable>(endPointURL: EndPoint, complitionHandler: @escaping (T) -> ()) {
 		guard let url = endPointURL.stringURL else { return }
 		dataTask(url: url) { data in
 			do {
@@ -28,26 +25,6 @@ final class NetworkService: NetworkInterface {
 			} catch {
 				print(error.localizedDescription)
 			}
-		}
-	}
-	
-	func fetchImages(stringURLs: [String],
-					complitionHandler: @escaping (Data) -> ()) {
-		for stringURL in stringURLs {
-			fetchImage(stringURL: stringURL) { data in
-				complitionHandler(data)
-			}
-//			guard let url = URL(string: stringURL) else { return }
-//			dataTask(url: url) { data in
-//				do {
-//					let data = try Data(contentsOf: url)
-//					DispatchQueue.main.async {
-//						complitionHandler(data)
-//					}
-//				} catch {
-//					print(error.localizedDescription)
-//				}
-//			}
 		}
 	}
 	
