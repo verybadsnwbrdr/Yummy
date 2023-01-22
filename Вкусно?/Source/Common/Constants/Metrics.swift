@@ -7,8 +7,6 @@
 
 import Foundation
 
-// MARK: - Metric
-
 extension CGFloat {
 	static let horizontalOffset: CGFloat = 20
 	static var horizontalInset: CGFloat { -horizontalOffset }
@@ -17,6 +15,7 @@ extension CGFloat {
 	static var verticalInset: CGFloat { -verticalOffset }
 	
 	static let imageMultiplier: CGFloat = 0.8
+	
 	static let starsMultiplier: CGFloat = 6
 	static let starsHeight: CGFloat = 20
 	

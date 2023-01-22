@@ -15,6 +15,8 @@ protocol DetailViewPresenter: AnyObject {
 
 final class DetailPresenter: DetailViewPresenter {
 	
+	// MARK: - Properties
+	
 	private weak var view: DetailView?
 	private let networkService: NetworkType
 	private var itemID: String
@@ -26,6 +28,8 @@ final class DetailPresenter: DetailViewPresenter {
 		self.networkService = networkService
 		self.itemID = itemID
 	}
+	
+	// MARK: - DetailViewPresenter Implementation
 	
 	func fetchItem() {
 		self.networkService.fetchItem(endPointURL: .recipeWithID(itemID)) { [weak self] (recipe: DetailModel) in

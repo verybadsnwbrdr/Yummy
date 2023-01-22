@@ -89,6 +89,8 @@ final class DetailSubView: UIView {
 	}
 }
 
+// MARK: - StarViewHelpers
+
 private extension DetailSubView {
 	
 	func createStarView() -> UIImageView {

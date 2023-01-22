@@ -5,8 +5,6 @@
 //  Created by Anton on 20.01.2023.
 //
 
-import Foundation
-
 struct DetailAssembly {
 	static func build(id: String, with networkService: NetworkType) -> DetailView {
 		let view = DetailViewController()

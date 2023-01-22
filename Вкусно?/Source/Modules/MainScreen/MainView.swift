@@ -93,7 +93,8 @@ extension MainViewController: UITableViewDelegate {
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: true)
-		guard let view = self.presenter.createDetailView(for: indexPath.row) as? UIViewController else { return }
+		guard let view = self.presenter.createDetailView(for: indexPath.row)
+				as? UIViewController else { return }
 		navigationController?.pushViewController(view, animated: true)
 	}
 }

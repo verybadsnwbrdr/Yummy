@@ -14,9 +14,11 @@ protocol NetworkType: AnyObject {
 
 final class NetworkService: NetworkType {
 	
-	var dataManager: DataManagerType?
+	var cacheManager: CacheManagerType?
+	var dataManager: DataManagerType
 	
-	init(dataManager: DataManagerType?) {
+	init(cacheManager: CacheManagerType?, dataManager: DataManagerType) {
+		self.cacheManager = cacheManager
 		self.dataManager = dataManager
 	}
 	
@@ -37,7 +39,7 @@ final class NetworkService: NetworkType {
 	func fetchImage(stringURL: String,
 					complitionHandler: @escaping (Data) -> ()) {
 		guard let url = URL(string: stringURL) else { return }
-		if let data = dataManager?.data(for: url) {
+		if let data = cacheManager?.data(for: url) {
 			DispatchQueue.main.async {
 				complitionHandler(data as Data)
 			}
@@ -46,7 +48,7 @@ final class NetworkService: NetworkType {
 				DispatchQueue.main.async {
 					complitionHandler(data)
 				}
-				self?.dataManager?.insertData(data as NSData, for: url)
+				self?.cacheManager?.insertData(data as NSData, for: url)
 			}
 		}
 	}
@@ -55,6 +57,12 @@ final class NetworkService: NetworkType {
 	
 	private func dataTask(url: URL, complitionHandler: @escaping (Data) -> ()) {
 		let task = URLSession.shared.dataTask(with: url) { data, response, error in
+//			if let data = data {
+//				complitionHandler(data)
+//			} else {
+//				let models = self.dataManager.getModels()
+//				complitionHandler(models)
+//			}
 			guard let data = data else { return }
 			complitionHandler(data)
 		}
