@@ -95,7 +95,7 @@ private extension DetailSubView {
 	
 	func createStarView() -> UIImageView {
 		let star = UIImageView()
-		star.image = UIImage(named: "star.fill")
+		star.image = UIImage(named: Images.starFill.rawValue)
 		star.tintColor = .gray
 		star.contentMode = .scaleAspectFit
 		star.translatesAutoresizingMaskIntoConstraints = false

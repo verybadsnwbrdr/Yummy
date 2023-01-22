@@ -29,6 +29,7 @@ final class DetailCollectionViewCell: UICollectionViewCell {
 		recipeImage.contentMode = .scaleToFill
 		recipeImage.layer.cornerRadius = 5
 		recipeImage.clipsToBounds = true
+		recipeImage.translatesAutoresizingMaskIntoConstraints = false
 		return recipeImage
 	}()
 	
@@ -36,8 +37,13 @@ final class DetailCollectionViewCell: UICollectionViewCell {
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
-		recipeImage.frame = self.bounds
 		addSubview(recipeImage)
+		NSLayoutConstraint.activate([
+			recipeImage.topAnchor.constraint(equalTo: topAnchor),
+			recipeImage.bottomAnchor.constraint(equalTo: bottomAnchor),
+			recipeImage.leftAnchor.constraint(equalTo: leftAnchor),
+			recipeImage.rightAnchor.constraint(equalTo: rightAnchor)
+		])
 	}
 	
 	required init?(coder: NSCoder) {

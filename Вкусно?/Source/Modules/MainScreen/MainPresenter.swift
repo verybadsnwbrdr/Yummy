@@ -45,7 +45,7 @@ final class MainPresenter {
 		}
 //		print(dataManager.getModels())
 		dataManager.clearDataManager()
-//		print(dataManager.getModels())
+		print(dataManager.getModels())
 	}
 }
 
@@ -80,6 +80,6 @@ extension MainPresenter: MainViewPresenter {
 	
 	func createDetailView(for row: Int) -> DetailView {
 		let model = items[row]
-		return DetailAssembly.build(id: model.uuid, with: self.networkService)
+		return DetailAssembly.build(id: model.uuid, with: networkService)
 	}
 }

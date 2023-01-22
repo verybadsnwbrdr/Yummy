@@ -32,13 +32,13 @@ final class DetailPresenter: DetailViewPresenter {
 	// MARK: - DetailViewPresenter Implementation
 	
 	func fetchItem() {
-		self.networkService.fetchItem(endPointURL: .recipeWithID(itemID)) { [weak self] (recipe: DetailModel) in
+		networkService.fetchItem(endPointURL: .recipeWithID(itemID)) { [weak self] (recipe: DetailModel) in
 			self?.view?.recipe = recipe
 		}
 	}
 	
 	func fetchImageData(with stringURL: String, complitionHandler: @escaping (Data) -> ()) {
-		self.networkService.fetchImage(stringURL: stringURL) { data in
+		networkService.fetchImage(stringURL: stringURL) { data in
 			complitionHandler(data)
 		}
 	}

@@ -33,6 +33,7 @@
 		3A1EFB03297C41D4005894AA /* DataModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFB01297C41D4005894AA /* DataModel+CoreDataClass.swift */; };
 		3A1EFB04297C41D4005894AA /* DataModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFB02297C41D4005894AA /* DataModel+CoreDataProperties.swift */; };
 		3A1EFB06297D10EB005894AA /* DetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFB05297D10EB005894AA /* DetailCollectionViewCell.swift */; };
+		3A1EFB09297D760E005894AA /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFB08297D760E005894AA /* Images.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +65,7 @@
 		3A1EFB01297C41D4005894AA /* DataModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataModel+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3A1EFB02297C41D4005894AA /* DataModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3A1EFB05297D10EB005894AA /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
+		3A1EFB08297D760E005894AA /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +216,7 @@
 				3A1EFAEF297BEACC005894AA /* Localization.swift */,
 				3A1EFAF1297BEAD4005894AA /* Fonts.swift */,
 				3A1EFAF3297BF0C9005894AA /* Metrics.swift */,
+				3A1EFB08297D760E005894AA /* Images.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -331,6 +334,7 @@
 				3A1EFAE6297AE20B005894AA /* MainAssembly.swift in Sources */,
 				3A1EFB04297C41D4005894AA /* DataModel+CoreDataProperties.swift in Sources */,
 				3A1EFAEA297BA65B005894AA /* DetailSubView.swift in Sources */,
+				3A1EFB09297D760E005894AA /* Images.swift in Sources */,
 				3A1EFAF2297BEAD4005894AA /* Fonts.swift in Sources */,
 				3A1EFAEC297BE0D4005894AA /* ViewWithHeader.swift in Sources */,
 			);
@@ -479,8 +483,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -510,8 +513,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

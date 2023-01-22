@@ -20,4 +20,5 @@ extension CGFloat {
 	static let starsHeight: CGFloat = 20
 	
 	static let tableVerticalOffset: CGFloat = 5
+	static let tableRowHeight: CGFloat = 70
 }

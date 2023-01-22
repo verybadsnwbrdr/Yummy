@@ -15,7 +15,7 @@ final class DetailViewController: UIViewController, DetailView {
 	
 	// MARK: - Properties
 	
-	var presenter: DetailViewPresenter!
+	var presenter: DetailViewPresenter?
 	var recipe: DetailModel? {
 		didSet {
 			let recipe = recipe?.recipe
@@ -77,7 +77,7 @@ final class DetailViewController: UIViewController, DetailView {
 		fetchRecipe()
 		navigationItem.largeTitleDisplayMode = .never
 		navigationController?.navigationBar.tintColor = .gray
-		navigationItem.leftBarButtonItem = UIBarButtonItem(title: Localization.backButton.rawValue,
+		navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: Images.backShewron.rawValue),
 														   style: .plain,
 														   target: self,
 														   action: #selector(back))
@@ -97,20 +97,21 @@ final class DetailViewController: UIViewController, DetailView {
 	// MARK: - Private Methods
 	
 	private func fetchRecipe() {
-		self.presenter.fetchItem()
+		presenter?.fetchItem()
 	}
 	
 	@objc private func back() {
 		navigationController?.popViewController(animated: true)
 	}
 
-	@objc private func activite(_ sender: UIBarButtonItem) {
-		let currentImage = self.pageControl.currentPage
-		guard let cell = collectionView.cellForItem(at: .init(item: currentImage, section: 0)) as? DetailCollectionViewCell else { return }
-		let activityViewController = UIActivityViewController(activityItems: [cell.imageView!],
+	@objc private func activite() {
+		let currentIndex = self.pageControl.currentPage
+		let indexPath = IndexPath(item: currentIndex, section: .zero)
+		guard let cell = collectionView.cellForItem(at: indexPath) as? DetailCollectionViewCell,
+			  let image = cell.imageView  else { return }
+		let activityViewController = UIActivityViewController(activityItems: [image],
 															  applicationActivities: nil)
-		activityViewController.popoverPresentationController?.sourceView = navigationController?.view
-		navigationController?.present(activityViewController, animated: true)
+		present(activityViewController, animated: true)
 	}
 	
 }
@@ -119,7 +120,7 @@ final class DetailViewController: UIViewController, DetailView {
 
 extension DetailViewController: UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		self.recipe?.recipe.images.count ?? 0
+		recipe?.recipe.images.count ?? 0
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -128,7 +129,7 @@ extension DetailViewController: UICollectionViewDataSource {
 			for: indexPath
 		) as? DetailCollectionViewCell else { return UICollectionViewCell() }
 		if let stringURL = recipe?.recipe.images[indexPath.item] {
-			self.presenter.fetchImageData(with: stringURL) { data in
+			presenter?.fetchImageData(with: stringURL) { data in
 				cell.imageView = UIImage(data: data)
 			}
 		}
@@ -148,7 +149,7 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
 		let visibleRect = CGRect(origin: self.collectionView.contentOffset, size: self.collectionView.bounds.size)
 		let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
 		if let visibleIndexPath = self.collectionView.indexPathForItem(at: visiblePoint) {
-			self.pageControl.currentPage = visibleIndexPath.row
+			pageControl.currentPage = visibleIndexPath.row
 		}
 	}
 }
