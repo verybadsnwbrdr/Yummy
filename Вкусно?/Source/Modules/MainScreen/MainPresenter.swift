@@ -8,8 +8,7 @@
 import Foundation
 
 protocol MainViewPresenter: AnyObject {
-//	init(view: MainView, networkService: NetworkType)
-	init(view: MainView, networkService: NetworkType, dataManager: DataManagerType)
+	init(view: MainView, networkService: NetworkServiceType)
 	func itemForRow(at index: Int) -> MainModel
 	func numberOfItems() -> Int
 	
@@ -24,28 +23,14 @@ final class MainPresenter {
 	// MARK: - Properties
 	
 	private weak var view: MainView?
-	private let networkService: NetworkType
+	private let networkService: NetworkServiceType
 	private var items: [MainModel] = []
-	
-	var dataManager: DataManagerType
 	
 	// MARK: - Initializer
 	
-	init(view: MainView, networkService: NetworkType, dataManager: DataManagerType) {
+	init(view: MainView, networkService: NetworkServiceType) {
 		self.view = view
 		self.networkService = networkService
-		self.dataManager = dataManager
-	}
-	
-	// MARK: - Private Methods
-	
-	private func saveToLocalStorage(recipes: [Recipe]) {
-		for recipe in recipes {
-//			dataManager.addModel(recipe)
-		}
-//		print(dataManager.getModels())
-		dataManager.clearDataManager()
-		print(dataManager.getModels())
 	}
 }
 
@@ -59,7 +44,6 @@ extension MainPresenter: MainViewPresenter {
 														  description: $0.description,
 														  images: $0.images) }
 			self?.view?.updateTableView()
-			self?.saveToLocalStorage(recipes: recipes.recipes)
 		}
 	}
 	

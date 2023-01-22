@@ -25,6 +25,7 @@ final class MainViewController: UIViewController {
 		tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.identifier)
 		tableView.dataSource = self
 		tableView.delegate = self
+		tableView.translatesAutoresizingMaskIntoConstraints = false
 		return tableView
 	}()
 	
@@ -44,8 +45,6 @@ final class MainViewController: UIViewController {
 		navigationController?.navigationBar.prefersLargeTitles = true
 		view.addSubview(tableView)
 		
-		tableView.translatesAutoresizingMaskIntoConstraints = false
-		
 		NSLayoutConstraint.activate([
 			tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
 			tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -60,7 +59,7 @@ final class MainViewController: UIViewController {
 	}
 }
 
-// MARK: - Protocol
+// MARK: - MainView Implementation
 
 extension MainViewController: MainView {
 	func updateTableView() {

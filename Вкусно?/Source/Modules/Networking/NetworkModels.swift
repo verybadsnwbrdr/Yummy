@@ -17,11 +17,3 @@ struct Recipe: Decodable {
 	let instructions: String
 	let difficulty: Int
 }
-
-extension Recipe {
-	struct Similar: Decodable {
-		let uuid: String
-		let name: String
-		let image: String
-	}
-}

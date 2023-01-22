@@ -13,7 +13,10 @@ protocol CacheManagerType: AnyObject {
 }
 
 final class CacheManager: CacheManagerType {
+	
 	private let imageCache = NSCache<AnyObject, AnyObject>()
+	
+	// MARK: - CacheManagerType Implimentation
 	
 	func insertData(_ image: NSData?, for url: URL) {
 		guard let image = image else { return }
