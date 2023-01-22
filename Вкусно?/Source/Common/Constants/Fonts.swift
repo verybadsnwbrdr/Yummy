@@ -10,8 +10,8 @@ import UIKit
 enum Fonts: CGFloat {
 	case header = 18
 	case body = 16
-	case tableHeader = 14
-	case tableBody = 12
+	case tableHeader = 15
+	case tableBody = 14
 	
 	var bold: UIFont { .systemFont(ofSize: rawValue, weight: .bold) }
 	var semibold: UIFont { .systemFont(ofSize: rawValue, weight: .semibold) }

@@ -7,19 +7,38 @@
 
 import Foundation
 
-protocol NetworkType: AnyObject {
+protocol NetworkServiceType: AnyObject {
+	init(cacheManager: CacheManagerType)
 	func fetchItem<T: Decodable>(endPointURL: EndPoint, complitionHandler: @escaping (T) -> ())
 	func fetchImage(stringURL: String, complitionHandler: @escaping (Data) -> ())
 }
 
-final class NetworkService: NetworkType {
+final class NetworkService: NetworkServiceType {
 	
-	var dataManager: DataManagerType?
+	// MARK: - Properties
 	
-	init(dataManager: DataManagerType?) {
-		self.dataManager = dataManager
+	private var cacheManager: CacheManagerType
+	
+	// MARK: - Initializer
+	
+	init(cacheManager: CacheManagerType) {
+		self.cacheManager = cacheManager
 	}
+
+	// MARK: - Private Methods
 	
+	private func dataTask(url: URL, complitionHandler: @escaping (Data) -> ()) {
+		let task = URLSession.shared.dataTask(with: url) { data, response, error in
+			guard let data = data else { return }
+			complitionHandler(data)
+		}
+		task.resume()
+	}
+}
+
+// MARK: - NetworkServiceType Implementation
+
+extension NetworkService {
 	func fetchItem<T: Decodable>(endPointURL: EndPoint, complitionHandler: @escaping (T) -> ()) {
 		guard let url = endPointURL.stringURL else { return }
 		dataTask(url: url) { data in
@@ -37,7 +56,7 @@ final class NetworkService: NetworkType {
 	func fetchImage(stringURL: String,
 					complitionHandler: @escaping (Data) -> ()) {
 		guard let url = URL(string: stringURL) else { return }
-		if let data = dataManager?.data(for: url) {
+		if let data = cacheManager.data(for: url) {
 			DispatchQueue.main.async {
 				complitionHandler(data as Data)
 			}
@@ -46,20 +65,8 @@ final class NetworkService: NetworkType {
 				DispatchQueue.main.async {
 					complitionHandler(data)
 				}
-				self?.dataManager?.insertData(data as NSData, for: url)
+				self?.cacheManager.insertData(data as NSData, for: url)
 			}
 		}
 	}
-	
-	// MARK: - Private Methods
-	
-	private func dataTask(url: URL, complitionHandler: @escaping (Data) -> ()) {
-		let task = URLSession.shared.dataTask(with: url) { data, response, error in
-			guard let data = data else { return }
-			complitionHandler(data)
-		}
-		task.resume()
-	}
 }
-
-

@@ -8,30 +8,35 @@
 import Foundation
 
 protocol MainViewPresenter: AnyObject {
-	init(view: MainView, networkService: NetworkType)
-	func fetchItems()
+	init(view: MainView, networkService: NetworkServiceType)
 	func itemForRow(at index: Int) -> MainModel
 	func numberOfItems() -> Int
+	
+	func fetchItems()
 	func fetchImageData(for row: Int, complitionHandler: @escaping (Data) -> ())
 	
 	func createDetailView(for row: Int) -> DetailView
 }
 
-final class MainPresenter: MainViewPresenter {
+final class MainPresenter {
+	
+	// MARK: - Properties
 	
 	private weak var view: MainView?
-	private let networkService: NetworkType
+	private let networkService: NetworkServiceType
 	private var items: [MainModel] = []
 	
 	// MARK: - Initializer
 	
-	init(view: MainView, networkService: NetworkType) {
+	init(view: MainView, networkService: NetworkServiceType) {
 		self.view = view
 		self.networkService = networkService
 	}
-	
-	// MARK: - Methods
-	
+}
+
+// MARK: - MainViewPresenter
+
+extension MainPresenter: MainViewPresenter {
 	func fetchItems() {
 		networkService.fetchItem(endPointURL: .recipes) { [weak self] (recipes: Recipes) in
 			self?.items = recipes.recipes.map { MainModel(uuid: $0.uuid,
@@ -59,6 +64,6 @@ final class MainPresenter: MainViewPresenter {
 	
 	func createDetailView(for row: Int) -> DetailView {
 		let model = items[row]
-		return DetailAssembly.build(id: model.uuid, with: self.networkService)
+		return DetailAssembly.build(id: model.uuid, with: networkService)
 	}
 }

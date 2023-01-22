@@ -8,33 +8,37 @@
 import Foundation
 
 protocol DetailViewPresenter: AnyObject {
-	init(itemID: String, view: DetailView, networkService: NetworkType)
+	init(itemID: String, view: DetailView, networkService: NetworkServiceType)
 	func fetchItem()
 	func fetchImageData(with stringURL: String, complitionHandler: @escaping (Data) -> ())
 }
 
 final class DetailPresenter: DetailViewPresenter {
 	
+	// MARK: - Properties
+	
 	private weak var view: DetailView?
-	private let networkService: NetworkType
+	private let networkService: NetworkServiceType
 	private var itemID: String
 	
 	// MARK: - Initializer
 	
-	init(itemID: String, view: DetailView, networkService: NetworkType) {
+	init(itemID: String, view: DetailView, networkService: NetworkServiceType) {
 		self.view = view
 		self.networkService = networkService
 		self.itemID = itemID
 	}
 	
+	// MARK: - DetailViewPresenter Implementation
+	
 	func fetchItem() {
-		self.networkService.fetchItem(endPointURL: .recipeWithID(itemID)) { [weak self] (recipe: DetailModel) in
+		networkService.fetchItem(endPointURL: .recipeWithID(itemID)) { [weak self] (recipe: DetailModel) in
 			self?.view?.recipe = recipe
 		}
 	}
 	
 	func fetchImageData(with stringURL: String, complitionHandler: @escaping (Data) -> ()) {
-		self.networkService.fetchImage(stringURL: stringURL) { data in
+		networkService.fetchImage(stringURL: stringURL) { data in
 			complitionHandler(data)
 		}
 	}

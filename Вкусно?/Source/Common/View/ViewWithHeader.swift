@@ -46,8 +46,7 @@ final class ViewWithHeader: UIView {
 	init(header: String) {
 		self.header = header
 		super.init(frame: .zero)
-		setupHierarchy()
-		setupLayout()
+		setupController()
 		translatesAutoresizingMaskIntoConstraints = false
 	}
 	
@@ -57,12 +56,10 @@ final class ViewWithHeader: UIView {
 	
 	// MARK: - Setup Controller
 	
-	private func setupHierarchy() {
+	private func setupController() {
 		addSubview(headerLabel)
 		addSubview(bodyLabel)
-	}
-	
-	private func setupLayout() {
+		
 		NSLayoutConstraint.activate([
 			headerLabel.topAnchor.constraint(equalTo: topAnchor),
 			headerLabel.leadingAnchor.constraint(equalTo: leadingAnchor),

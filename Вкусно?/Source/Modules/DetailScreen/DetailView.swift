@@ -15,7 +15,7 @@ final class DetailViewController: UIViewController, DetailView {
 	
 	// MARK: - Properties
 	
-	var presenter: DetailViewPresenter!
+	var presenter: DetailViewPresenter?
 	var recipe: DetailModel? {
 		didSet {
 			let recipe = recipe?.recipe
@@ -38,7 +38,8 @@ final class DetailViewController: UIViewController, DetailView {
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-		collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+		collectionView.register(DetailCollectionViewCell.self,
+								forCellWithReuseIdentifier: DetailCollectionViewCell.description())
 		collectionView.delegate = self
 		collectionView.dataSource = self
 		collectionView.showsHorizontalScrollIndicator = false
@@ -65,19 +66,26 @@ final class DetailViewController: UIViewController, DetailView {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		fetchRecipe()
-		navigationItem.largeTitleDisplayMode = .never
-		navigationController?.navigationBar.tintColor = .gray
-		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back",
-														   style: .plain,
-														   target: self,
-														   action: #selector(back))
-		view.backgroundColor = .white
+		setupController()
 		setupHierarchy()
 		setupLayout()
 	}
 	
 	// MARK: - Setup Controller
+	
+	private func setupController() {
+		fetchRecipe()
+		navigationItem.largeTitleDisplayMode = .never
+		navigationController?.navigationBar.tintColor = .gray
+		navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: Images.backShewron.rawValue),
+														   style: .plain,
+														   target: self,
+														   action: #selector(back))
+		navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action,
+															target: self,
+															action: #selector(activite))
+		view.backgroundColor = .white
+	}
 	
 	private func setupHierarchy() {
 		scrollView.addSubview(collectionView)
@@ -89,37 +97,40 @@ final class DetailViewController: UIViewController, DetailView {
 	// MARK: - Private Methods
 	
 	private func fetchRecipe() {
-		self.presenter.fetchItem()
+		presenter?.fetchItem()
 	}
 	
-	@objc func back() {
+	@objc private func back() {
 		navigationController?.popViewController(animated: true)
 	}
+
+	@objc private func activite() {
+		let currentIndex = self.pageControl.currentPage
+		let indexPath = IndexPath(item: currentIndex, section: .zero)
+		guard let cell = collectionView.cellForItem(at: indexPath) as? DetailCollectionViewCell,
+			  let image = cell.imageView  else { return }
+		let activityViewController = UIActivityViewController(activityItems: [image],
+															  applicationActivities: nil)
+		present(activityViewController, animated: true)
+	}
+	
 }
 
 // MARK: - DataSource
 
 extension DetailViewController: UICollectionViewDataSource {
-	private func createRecipeImage(with frame: CGRect) -> UIImageView {
-		let recipeImage = UIImageView(frame: frame)
-		recipeImage.backgroundColor = .gray.withAlphaComponent(0.1)
-		recipeImage.contentMode = .scaleToFill
-		recipeImage.layer.cornerRadius = 5
-		recipeImage.clipsToBounds = true
-		return recipeImage
-	}
-	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		self.recipe?.recipe.images.count ?? 0
+		recipe?.recipe.images.count ?? 0
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-		let recipeImage = createRecipeImage(with: cell.bounds)
-		cell.addSubview(recipeImage)
+		guard let cell = collectionView.dequeueReusableCell(
+			withReuseIdentifier: DetailCollectionViewCell.description(),
+			for: indexPath
+		) as? DetailCollectionViewCell else { return UICollectionViewCell() }
 		if let stringURL = recipe?.recipe.images[indexPath.item] {
-			self.presenter.fetchImageData(with: stringURL) { data in
-				recipeImage.image = UIImage(data: data)
+			presenter?.fetchImageData(with: stringURL) { data in
+				cell.imageView = UIImage(data: data)
 			}
 		}
 		return cell
@@ -138,7 +149,7 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
 		let visibleRect = CGRect(origin: self.collectionView.contentOffset, size: self.collectionView.bounds.size)
 		let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
 		if let visibleIndexPath = self.collectionView.indexPathForItem(at: visiblePoint) {
-			self.pageControl.currentPage = visibleIndexPath.row
+			pageControl.currentPage = visibleIndexPath.row
 		}
 	}
 }

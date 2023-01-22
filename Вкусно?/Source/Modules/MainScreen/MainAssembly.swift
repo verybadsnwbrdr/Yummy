@@ -5,13 +5,11 @@
 //  Created by Anton on 20.01.2023.
 //
 
-import Foundation
-
 struct MainAssembly {
 	static func build() -> MainViewController {
 		let view = MainViewController()
-		let dataManager = DataManager()
-		let networkService = NetworkService(dataManager: dataManager)
+		let cacheManager = CacheManager()
+		let networkService = NetworkService(cacheManager: cacheManager)
 		view.presenter = MainPresenter(view: view, networkService: networkService)
 		return view
 	}

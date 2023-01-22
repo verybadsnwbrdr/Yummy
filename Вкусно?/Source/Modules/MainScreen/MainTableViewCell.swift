@@ -11,7 +11,7 @@ class MainTableViewCell: UITableViewCell {
 	
 	// MARK: - Identifier
 	
-	static var identifier: String { Self.self.description() }
+	static let identifier = MainTableViewCell.description()
 	
 	// MARK: Property
 	
@@ -37,8 +37,7 @@ class MainTableViewCell: UITableViewCell {
 	
 	private let nameLabel: UILabel = {
 		let label = UILabel()
-//		label.font = Fonts.tableHeader.semibold
-		label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+		label.font = Fonts.tableHeader.semibold
 		label.numberOfLines = 1
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
@@ -46,15 +45,14 @@ class MainTableViewCell: UITableViewCell {
 	
 	private let descriptionLabel: UILabel = {
 		let label = UILabel()
-//		label.font = Fonts.tableBody.regular
-		label.font = UIFont.systemFont(ofSize: 15)
+		label.font = Fonts.tableBody.regular
 		label.textColor = .gray
 		label.numberOfLines = 2
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
 	}()
 	
-	// MARK: - Initializer
+	// MARK: - Initializers
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)

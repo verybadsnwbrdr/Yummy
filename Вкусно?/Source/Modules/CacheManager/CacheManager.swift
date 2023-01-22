@@ -1,19 +1,22 @@
 //
-//  DataManager.swift
+//  CacheManager.swift
 //  Вкусно?
 //
 //  Created by Anton on 21.01.2023.
 //
 
-import UIKit
+import Foundation
 
-protocol DataManagerType: AnyObject {
+protocol CacheManagerType: AnyObject {
 	func data(for url: URL) -> NSData?
 	func insertData(_ image: NSData?, for url: URL)
 }
 
-final class DataManager: DataManagerType {
+final class CacheManager: CacheManagerType {
+	
 	private let imageCache = NSCache<AnyObject, AnyObject>()
+	
+	// MARK: - CacheManagerType Implimentation
 	
 	func insertData(_ image: NSData?, for url: URL) {
 		guard let image = image else { return }
