@@ -6,9 +6,9 @@
 //
 
 struct DetailAssembly {
-	static func build(id: String, with networkService: NetworkServiceType) -> DetailView {
+	static func build(id: String, with dataService: DataServiceType) -> DetailView {
 		let view = DetailViewController()
-		view.presenter = DetailPresenter(itemID: id, view: view, networkService: networkService)
+		view.presenter = DetailPresenter(itemID: id, view: view, dataService: dataService)
 		return view
 	}
 }

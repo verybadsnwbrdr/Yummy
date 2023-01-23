@@ -30,6 +30,12 @@
 		3A1EFAF7297C28BD005894AA /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFAF6297C28BD005894AA /* CacheManager.swift */; };
 		3A1EFB06297D10EB005894AA /* DetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFB05297D10EB005894AA /* DetailCollectionViewCell.swift */; };
 		3A1EFB09297D760E005894AA /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFB08297D760E005894AA /* Images.swift */; };
+		3A1EFB0F297EBCB5005894AA /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFB0E297EBCB5005894AA /* NetworkError.swift */; };
+		3A1EFB11297ECC0F005894AA /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFB10297ECC0F005894AA /* DataService.swift */; };
+		3A1EFB15297EDB36005894AA /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFB14297EDB36005894AA /* CoreDataService.swift */; };
+		3A1EFB18297EDB4E005894AA /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFB16297EDB4E005894AA /* CoreData.xcdatamodeld */; };
+		3A1EFB1F297EE12A005894AA /* CoreDataModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFB1D297EE12A005894AA /* CoreDataModel+CoreDataClass.swift */; };
+		3A1EFB20297EE12A005894AA /* CoreDataModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1EFB1E297EE12A005894AA /* CoreDataModel+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +64,12 @@
 		3A1EFAF6297C28BD005894AA /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		3A1EFB05297D10EB005894AA /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		3A1EFB08297D760E005894AA /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		3A1EFB0E297EBCB5005894AA /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		3A1EFB10297ECC0F005894AA /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
+		3A1EFB14297EDB36005894AA /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
+		3A1EFB17297EDB4E005894AA /* CoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreData.xcdatamodel; sourceTree = "<group>"; };
+		3A1EFB1D297EE12A005894AA /* CoreDataModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataModel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		3A1EFB1E297EE12A005894AA /* CoreDataModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +147,8 @@
 		3A1EFAC829798851005894AA /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				3A1EFB13297EDB1F005894AA /* CoreData */,
+				3A1EFB12297ECC1D005894AA /* DataService */,
 				3A1EFAF5297C28AC005894AA /* CacheManager */,
 				3A1EFAD329799388005894AA /* Networking */,
 				3A1EFACC29798AEC005894AA /* DetailScreen */,
@@ -190,6 +204,7 @@
 				3A1EFAD129799346005894AA /* NetworkService.swift */,
 				3A1EFAD8297AD731005894AA /* NetworkModels.swift */,
 				3A1EFAD4297993A1005894AA /* EndPoint.swift */,
+				3A1EFB0E297EBCB5005894AA /* NetworkError.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -228,6 +243,25 @@
 				3A1EFB05297D10EB005894AA /* DetailCollectionViewCell.swift */,
 			);
 			path = SubViews;
+			sourceTree = "<group>";
+		};
+		3A1EFB12297ECC1D005894AA /* DataService */ = {
+			isa = PBXGroup;
+			children = (
+				3A1EFB10297ECC0F005894AA /* DataService.swift */,
+			);
+			path = DataService;
+			sourceTree = "<group>";
+		};
+		3A1EFB13297EDB1F005894AA /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				3A1EFB1D297EE12A005894AA /* CoreDataModel+CoreDataClass.swift */,
+				3A1EFB1E297EE12A005894AA /* CoreDataModel+CoreDataProperties.swift */,
+				3A1EFB14297EDB36005894AA /* CoreDataService.swift */,
+				3A1EFB16297EDB4E005894AA /* CoreData.xcdatamodeld */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -302,17 +336,23 @@
 			files = (
 				3A1EFAD5297993A1005894AA /* EndPoint.swift in Sources */,
 				3A1EFAF0297BEACC005894AA /* Localization.swift in Sources */,
+				3A1EFB18297EDB4E005894AA /* CoreData.xcdatamodeld in Sources */,
 				3A1EFAD229799346005894AA /* NetworkService.swift in Sources */,
 				3A1EFAF4297BF0C9005894AA /* Metrics.swift in Sources */,
+				3A1EFB15297EDB36005894AA /* CoreDataService.swift in Sources */,
+				3A1EFB1F297EE12A005894AA /* CoreDataModel+CoreDataClass.swift in Sources */,
 				3A1EFADB297ADB19005894AA /* DetailPresenter.swift in Sources */,
+				3A1EFB11297ECC0F005894AA /* DataService.swift in Sources */,
 				3A1EFADE297ADB3E005894AA /* DetailView.swift in Sources */,
 				3A1EFAD029798EEA005894AA /* MainModel.swift in Sources */,
 				3A1EFAD72979965F005894AA /* MainTableViewCell.swift in Sources */,
 				3A1EFAD9297AD731005894AA /* NetworkModels.swift in Sources */,
+				3A1EFB0F297EBCB5005894AA /* NetworkError.swift in Sources */,
 				3A1EFB06297D10EB005894AA /* DetailCollectionViewCell.swift in Sources */,
 				3A1EFAB529798622005894AA /* MainView.swift in Sources */,
 				3A1EFACE29798E85005894AA /* MainPresenter.swift in Sources */,
 				3A1EFAE0297ADB4E005894AA /* DetailModel.swift in Sources */,
+				3A1EFB20297EE12A005894AA /* CoreDataModel+CoreDataProperties.swift in Sources */,
 				3A1EFAB129798622005894AA /* AppDelegate.swift in Sources */,
 				3A1EFAE8297AE2C7005894AA /* DetailAssembly.swift in Sources */,
 				3A1EFAF7297C28BD005894AA /* CacheManager.swift in Sources */,
@@ -534,6 +574,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		3A1EFB16297EDB4E005894AA /* CoreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				3A1EFB17297EDB4E005894AA /* CoreData.xcdatamodel */,
+			);
+			currentVersion = 3A1EFB17297EDB4E005894AA /* CoreData.xcdatamodel */;
+			path = CoreData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 3A1EFAA529798622005894AA /* Project object */;
 }

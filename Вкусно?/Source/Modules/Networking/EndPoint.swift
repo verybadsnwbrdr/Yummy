@@ -11,9 +11,10 @@ enum EndPoint {
 	
 	case recipes
 	case recipeWithID(String)
+	case image(String)
 	
-	var stringURL: URL? {
-		return URL(string: Self.base + fullPath)
+	var url: URL? {
+		URL(string: fullPath)
 	}
 	
 	// MARK: - Private Properties
@@ -22,9 +23,11 @@ enum EndPoint {
 	private var fullPath: String {
 		switch self {
 		case .recipes:
-			return "recipes"
+			return Self.base + "recipes"
 		case .recipeWithID(let id):
-			return "recipes/" + id
+			return Self.base +  "recipes/" + id
+		case .image(let url):
+			return url
 		}
 	}
 }

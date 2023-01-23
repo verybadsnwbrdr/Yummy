@@ -9,8 +9,8 @@ import Foundation
 
 protocol NetworkServiceType: AnyObject {
 	init(cacheManager: CacheManagerType)
-	func fetchItem<T: Decodable>(endPointURL: EndPoint, complitionHandler: @escaping (T) -> ())
-	func fetchImage(stringURL: String, complitionHandler: @escaping (Data) -> ())
+	func fetchItem<T: Decodable>(endPointURL: EndPoint, complitionHandler: @escaping (Result<T, NetworkError>) -> ())
+	func fetchImage(endPointURL: EndPoint, complitionHandler: @escaping (Result<Data, NetworkError>) -> ())
 }
 
 final class NetworkService: NetworkServiceType {
@@ -24,13 +24,24 @@ final class NetworkService: NetworkServiceType {
 	init(cacheManager: CacheManagerType) {
 		self.cacheManager = cacheManager
 	}
-
+	
 	// MARK: - Private Methods
 	
-	private func dataTask(url: URL, complitionHandler: @escaping (Data) -> ()) {
-		let task = URLSession.shared.dataTask(with: url) { data, response, error in
-			guard let data = data else { return }
-			complitionHandler(data)
+	private func dataTask(url: URL?, complitionHandler: @escaping (Result<Data, NetworkError>) -> ()) {
+		guard let url = url else {
+			complitionHandler(.failure(.incorrectURL))
+			return
+		}
+		let task = URLSession.shared.dataTask(with: url) { data, _, error in
+			guard let data = data else {
+				if error != nil {
+					complitionHandler(.failure(.connetionProblems))
+				} else {
+					complitionHandler(.failure(.incorrectData))
+				}
+				return
+			}
+			complitionHandler(.success(data))
 		}
 		task.resume()
 	}
@@ -39,34 +50,27 @@ final class NetworkService: NetworkServiceType {
 // MARK: - NetworkServiceType Implementation
 
 extension NetworkService {
-	func fetchItem<T: Decodable>(endPointURL: EndPoint, complitionHandler: @escaping (T) -> ()) {
-		guard let url = endPointURL.stringURL else { return }
-		dataTask(url: url) { data in
-			do {
-				let decoded = try JSONDecoder().decode(T.self, from: data)
-				DispatchQueue.main.async {
-					complitionHandler(decoded)
+	func fetchItem<T: Decodable>(endPointURL: EndPoint,
+								 complitionHandler: @escaping (Result<T, NetworkError>) -> ()) {
+		dataTask(url: endPointURL.url) { result in
+			switch result {
+			case  .failure(let error):
+				complitionHandler(.failure(error))
+			case let .success(data):
+				do {
+					let decoded = try JSONDecoder().decode(T.self, from: data)
+					complitionHandler(.success(decoded))
+				} catch {
+					complitionHandler(.failure(.encodingFailed))
 				}
-			} catch {
-				print(error.localizedDescription)
 			}
 		}
 	}
 	
-	func fetchImage(stringURL: String,
-					complitionHandler: @escaping (Data) -> ()) {
-		guard let url = URL(string: stringURL) else { return }
-		if let data = cacheManager.data(for: url) {
-			DispatchQueue.main.async {
-				complitionHandler(data as Data)
-			}
-		} else {
-			dataTask(url: url) { [weak self] data in
-				DispatchQueue.main.async {
-					complitionHandler(data)
-				}
-				self?.cacheManager.insertData(data as NSData, for: url)
-			}
+	func fetchImage(endPointURL: EndPoint,
+					complitionHandler: @escaping (Result<Data, NetworkError>) -> ()) {
+		dataTask(url: endPointURL.url) { result in
+			complitionHandler(result)
 		}
 	}
 }

@@ -10,7 +10,8 @@ struct MainAssembly {
 		let view = MainViewController()
 		let cacheManager = CacheManager()
 		let networkService = NetworkService(cacheManager: cacheManager)
-		view.presenter = MainPresenter(view: view, networkService: networkService)
+		let dataService = DataService(networkService: networkService)
+		view.presenter = MainPresenter(view: view, dataService: dataService)
 		return view
 	}
 }
